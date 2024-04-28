@@ -1,0 +1,122 @@
+<html>
+<head>
+    <title>Medication Quantity Conversion Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-top: 20px;
+        }
+
+        label {
+            margin-bottom: 10px;
+        }
+
+        input[type="number"] {
+            width: 200px;
+            padding: 5px;
+            font-size: 16px;
+        }
+
+        input[type="submit"] {
+            width: 150px;
+            padding: 10px;
+            font-size: 18px;
+            background-color: green;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 20px;
+        }
+
+        input[type="reset"] {
+            width: 150px;
+            padding: 10px;
+            font-size: 18px;
+            background-color: red;
+            color: white;
+            border: none;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        #result {
+            display: none;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        #result h2 {
+            margin-bottom: 10px;
+        }
+
+        #result p {
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>Medication Quantity Conversion Calculator</h1>
+
+    <form>
+        <label for="currentQuantity">Current Prescription Quantity:</label>
+        <input type="number" id="currentQuantity" name="currentQuantity" required><br>
+
+        <label for="currentSupplyLength">Current Supply Length (in days):</label>
+        <input type="number" id="currentSupplyLength" name="currentSupplyLength" required><br>
+
+        <label for="desiredSupplyLength">Desired Supply Length (in days):</label>
+        <input type="number" id="desiredSupplyLength" name="desiredSupplyLength" required><br>
+
+        <label for="costPerUnit">Cost per Unit:</label>
+        <input type="number" id="costPerUnit" name="costPerUnit" step="0.01" required><br>
+
+        <input type="submit" value="Calculate">
+        <input type="reset" value="Reset">
+    </form>
+
+    <div id="result">
+        <h2>Equivalent Quantity for Desired Supply Length:</h2>
+        <p id="equivalentQuantity"></p>
+
+        <h2>Cost Comparison:</h2>
+        <p id="costComparison"></p>
+    </div>
+
+    <script>
+        document.querySelector('form').addEventListener('submit', function(e) {
+            e.preventDefault();
+
+            // Get user inputs
+            const currentQuantity = parseFloat(document.getElementById('currentQuantity').value);
+            const currentSupplyLength = parseFloat(document.getElementById('currentSupplyLength').value);
+            const desiredSupplyLength = parseFloat(document.getElementById('desiredSupplyLength').value);
+            const costPerUnit = parseFloat(document.getElementById('costPerUnit').value);
+
+            // Calculate equivalent quantity
+            const equivalentQuantity = (currentQuantity * (desiredSupplyLength / currentSupplyLength)).toFixed(2);
+
+            // Display equivalent quantity
+            document.getElementById('equivalentQuantity').textContent = `${equivalentQuantity} units`;
+
+            // Calculate and display cost comparison
+            const costForDesiredSupply = (equivalentQuantity * costPerUnit).toFixed(2);
+            const costForCurrentSupply = (currentQuantity * costPerUnit).toFixed(2);
+            const costComparison = `Cost for ${desiredSupplyLength} days: $${costForDesiredSupply}<br>Cost for ${currentSupplyLength} days: $${costForCurrentSupply}`;
+            document.getElementById('costComparison').innerHTML = costComparison;
+
+            // Show result section
+            document.getElementById('result').style.display = 'block';
+        });
+    </script>
+</body>
+</html>
